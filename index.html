@@ -49,7 +49,6 @@
             overflow: hidden;
         }
 
-        /* Top highlight bar on the card */
         .card::before {
             content: '';
             position: absolute;
@@ -97,6 +96,10 @@
             box-sizing: border-box;
             outline: none;
             transition: all 0.3s ease;
+        }
+
+        /* Voucher code specifically capitalized */
+        #voucherCode {
             text-transform: uppercase;
             letter-spacing: 2px;
         }
@@ -161,7 +164,6 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        /* Neon status alerts */
         .win { 
             background: rgba(0, 255, 136, 0.1); 
             color: #00ff88; 
@@ -190,14 +192,14 @@
 <body>
 
     <div class="card">
-        <!-- Replaced Emoji with Xtreme Logo -->
         <img src="xtremelogo.png" alt="Xtreme Internet" class="logo-img">
         
         <h2>System Link</h2>
-        <p>Enter your voucher code to check for encrypted rewards.</p>
+        <p>Enter your details to claim encrypted rewards.</p>
 
         <form id="giftForm">
             <input type="text" id="voucherCode" placeholder="Enter Voucher Code" required autocomplete="off">
+            <input type="text" id="fullName" placeholder="Enter Full Name" required autocomplete="off">
             <input type="tel" id="phoneNumber" placeholder="Enter Mobile Number" required autocomplete="off">
             <button type="submit" id="checkBtn">INITIATE SCAN 🚀</button>
         </form>
@@ -206,13 +208,13 @@
     </div>
 
     <script>
-        // REPLACE THIS WITH YOUR ACTUAL SHEETDB API URL
-        const SHEETDB_URL = "https://sheetdb.io/api/v1/1pggassfm5cnh";
+        const SHEETDB_URL = "https://sheetdb.io/api/v1/k1c2qu56xfw45";
 
         document.getElementById('giftForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const voucher = document.getElementById('voucherCode').value.trim();
+            const name = document.getElementById('fullName').value.trim();
             const phone = document.getElementById('phoneNumber').value.trim();
             const resultBox = document.getElementById('result-box');
             const checkBtn = document.getElementById('checkBtn');
@@ -222,7 +224,6 @@
             resultBox.style.display = "none";
 
             try {
-                // Search Google Sheets for the voucher code
                 const response = await fetch(`${SHEETDB_URL}/search?VoucherCode=${encodeURIComponent(voucher)}`);
                 const data = await response.json();
 
@@ -238,7 +239,11 @@
                             method: 'PATCH',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
-                                data: { Phone: phone, Status: 'Claimed' }
+                                data: { 
+                                    Name: name, 
+                                    Phone: phone, 
+                                    Status: 'Claimed' 
+                                }
                             })
                         });
 
