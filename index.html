@@ -194,8 +194,8 @@
     <div class="card">
         <img src="xtremelogo.png" alt="Xtreme Internet" class="logo-img">
         
-        <h2>System Link</h2>
-        <p>Enter your details to claim encrypted rewards.</p>
+        <h2>Free Voucher</h2>
+        <p>Enter your voucher code (even if expired), check if it has free voucher.</p>
 
         <form id="giftForm">
             <input type="text" id="voucherCode" placeholder="Enter Voucher Code" required autocomplete="off">
@@ -219,7 +219,7 @@
             const resultBox = document.getElementById('result-box');
             const checkBtn = document.getElementById('checkBtn');
 
-            checkBtn.innerText = "SCANNING... ⏳";
+            checkBtn.innerText = "CHECKING... ⏳";
             checkBtn.disabled = true;
             resultBox.style.display = "none";
 
@@ -247,7 +247,7 @@
                             })
                         });
 
-                        showResult(`TRANSMISSION SUCCESS!\nReward Acquired: ${record.Prize}`, "win");
+                        showResult(`Congratulations! You have free voucher\nVoucher Code: ${record.Prize}`, "win");
                     }
                 }
             } catch (error) {
