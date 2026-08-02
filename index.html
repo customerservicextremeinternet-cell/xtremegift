@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xtreme Internet - Gift Checker</title>
+    
+    <!-- Import Futuristic Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --neon-blue: #00d4ff;
+            --neon-blue-dark: #0077ff;
+            --neon-orange: #ff6600;
+            --neon-orange-light: #ff9900;
+            --bg-dark: #07070a;
+            --panel-bg: #111218;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at top right, rgba(0, 119, 255, 0.1), transparent 40%),
+                radial-gradient(circle at bottom left, rgba(255, 102, 0, 0.05), transparent 40%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .card {
+            background: var(--panel-bg);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 35px 30px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 
+                0 0 20px rgba(0, 119, 255, 0.2),
+                inset 0 0 15px rgba(0, 212, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Top highlight bar on the card */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-orange));
+        }
+
+        .logo-img {
+            width: 100%;
+            max-width: 240px;
+            margin: 0 auto 20px auto;
+            display: block;
+            filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.3));
+        }
+
+        h2 { 
+            font-family: 'Orbitron', sans-serif; 
+            margin: 0 0 10px 0; 
+            color: #ffffff;
+            font-size: 1.6rem;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        p { 
+            color: #a0aec0; 
+            font-size: 1.1rem; 
+            margin-bottom: 25px; 
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #2d3748;
+            border-radius: 8px;
+            color: var(--neon-blue);
+            font-size: 1.1rem;
+            font-family: 'Orbitron', sans-serif;
+            box-sizing: border-box;
+            outline: none;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        input::placeholder {
+            color: #4a5568;
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        input:focus { 
+            border-color: var(--neon-blue); 
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, var(--neon-orange), var(--neon-orange-light));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 102, 0, 0.4);
+            margin-top: 10px;
+        }
+
+        button:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 0 30px rgba(255, 102, 0, 0.7);
+            filter: brightness(1.1);
+        }
+
+        button:disabled {
+            background: #4a5568;
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #result-box {
+            margin-top: 25px;
+            padding: 18px;
+            border-radius: 8px;
+            display: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Neon status alerts */
+        .win { 
+            background: rgba(0, 255, 136, 0.1); 
+            color: #00ff88; 
+            border: 1px solid #00ff88; 
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+        }
+        
+        .lose { 
+            background: rgba(255, 51, 51, 0.1); 
+            color: #ff3333; 
+            border: 1px solid #ff3333; 
+            text-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
+            box-shadow: 0 0 15px rgba(255, 51, 51, 0.2);
+        }
+        
+        .claimed { 
+            background: rgba(255, 170, 0, 0.1); 
+            color: #ffaa00; 
+            border: 1px solid #ffaa00; 
+            text-shadow: 0 0 10px rgba(255, 170, 0, 0.5);
+            box-shadow: 0 0 15px rgba(255, 170, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- Replaced Emoji with Xtreme Logo -->
+        <img src="xtremelogo.png" alt="Xtreme Internet" class="logo-img">
+        
+        <h2>System Link</h2>
+        <p>Enter your voucher code to check for encrypted rewards.</p>
+
+        <form id="giftForm">
+            <input type="text" id="voucherCode" placeholder="Enter Voucher Code" required autocomplete="off">
+            <input type="tel" id="phoneNumber" placeholder="Enter Mobile Number" required autocomplete="off">
+            <button type="submit" id="checkBtn">INITIATE SCAN 🚀</button>
+        </form>
+
+        <div id="result-box"></div>
+    </div>
+
+    <script>
+        // REPLACE THIS WITH YOUR ACTUAL SHEETDB API URL
+        const SHEETDB_URL = "YOUR_SHEETDB_API_URL_HERE"; 
+
+        document.getElementById('giftForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const voucher = document.getElementById('voucherCode').value.trim();
+            const phone = document.getElementById('phoneNumber').value.trim();
+            const resultBox = document.getElementById('result-box');
+            const checkBtn = document.getElementById('checkBtn');
+
+            checkBtn.innerText = "SCANNING... ⏳";
+            checkBtn.disabled = true;
+            resultBox.style.display = "none";
+
+            try {
+                // Search Google Sheets for the voucher code
+                const response = await fetch(`${SHEETDB_URL}/search?VoucherCode=${encodeURIComponent(voucher)}`);
+                const data = await response.json();
+
+                if (data.length === 0) {
+                    showResult("ACCESS DENIED: Invalid or unknown code.", "lose");
+                } else {
+                    const record = data[0];
+
+                    if (record.Status === "Claimed") {
+                        showResult(`WARNING: Reward [${record.Prize}] has already been extracted.`, "claimed");
+                    } else {
+                        await fetch(`${SHEETDB_URL}/VoucherCode/${encodeURIComponent(voucher)}`, {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                data: { Phone: phone, Status: 'Claimed' }
+                            })
+                        });
+
+                        showResult(`TRANSMISSION SUCCESS!\nReward Acquired: ${record.Prize}`, "win");
+                    }
+                }
+            } catch (error) {
+                showResult("SYSTEM ERROR: Connection to server lost.", "lose");
+            } finally {
+                checkBtn.innerText = "INITIATE SCAN 🚀";
+                checkBtn.disabled = false;
+            }
+        });
+
+        function showResult(message, typeClass) {
+            const resultBox = document.getElementById('result-box');
+            resultBox.className = typeClass;
+            resultBox.innerText = message;
+            resultBox.style.display = "block";
+        }
+    </script>
+</body>
+</html>
